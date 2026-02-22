@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+	    <meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>USCIS Case Helper</title>
+
+		<!-- Bootstrap Icons -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+		<!-- CUSTOM CSS -->
+		 
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
+		rel="stylesheet"
+		/>
+
+		
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+	</head>
+	<body class="homepage is-preload">
+
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div class="container">
+
+						<!-- Header -->
+							
+
+						<!-- Banner -->
+							<div id="banner">
+								<h2><strong>EZ Path:</strong> Immigration made simple
+								<br />
+									</h2>
+								<p>Search for your USCIS form here</p>
+							<!-- 	
+								<li>
+									<a href="#">Docs</a>
+									<ul>
+										<li><a href="#">Lorem ipsum dolor</a></li>
+										<li><a href="#">Magna phasellus</a></li>
+										<li>
+											<a href="#">Phasellus consequat</a>
+											<ul>
+												<li><a href="#">Lorem ipsum dolor</a></li>
+												<li><a href="#">Phasellus consequat</a></li>
+												<li><a href="#">Magna phasellus</a></li>
+												<li><a href="#">Etiam dolore nisl</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Veroeros feugiat</a></li>
+									</ul>
+								</li>
+							-->
+								
+							
+
+								<div class="search-container">
+									<input type="text" id="search-box" placeholder="Search forms..." autocomplete="off">
+									<button id="search-submit" onclick="submitForm()">Explain</button>
+									<div id="matches" class="suggestions-box"></div>
+								</div>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+
+							</div>
+
+					</div>
+				</div>
+
+			<!-- Main Wrapper -->
+				<div id="main-wrapper">
+					<div class="wrapper style1">
+						<div class="inner">
+
+							<!-- Feature 1 -->
+								<section class="container box feature1">
+									<div class="row">
+										<div class="col-12">
+											<header class="first major">
+												<h2>Here is your breakdown</h2>
+												<!--<p>And this is where we talk about why we’re <strong>pretty awesome</strong> ...</p>  -->
+											</header>
+
+											<div id="ai-what">
+												<p style="color:#aaa; font-style:italic;">Select a form above to see your breakdown here...</p>
+											</div>
+										</div>
+										<div class="col-4 col-12-medium">
+											<section>
+												<a href="#" class="image section-img"><img src="fill-in-form.jpg" alt="" /></a>
+												<header>
+													<h3>File your application</h3>
+													<p>Clear Steps</p>
+													<br>
+													<div id="ai-steps">
+														<p style="color:#aaa; font-style:italic;">Select a form above...</p>
+													</div>
+												</header>
+											</section>
+										</div>
+										<div class="col-4 col-12-medium">
+											<section>
+												<a href="#" class="image section-img"><img src="percent.jpg" alt="" /></a>
+												<header>
+												
+													<h3>What to expect</h3>
+													<p>Approval odds & backlog status</p>
+												</header>
+
+												<div class="predictor-box">
+												<div class="pred-results" id="pred-results">
+
+													<div class="pred-card">
+													<div class="pred-card-label">Approval Probability</div>
+													<div class="pred-big" id="r-approval-pct">—</div>
+													<div class="pred-track">
+														<div class="pred-fill pred-fill-approval" id="r-approval-bar"></div>
+													</div>
+													<span class="pred-badge" id="r-approval-badge"></span>
+													<div class="pred-stat">
+														<span>Historical avg.</span><span id="r-hist-rate">—</span>
+													</div>
+													</div>
+
+													<div class="pred-card">
+													<div class="pred-card-label">Backlog & Pending Status</div>
+													<div class="pred-big" id="r-pending-pct">—</div>
+													<div class="pred-track">
+														<div class="pred-fill" id="r-pending-bar"></div>
+													</div>
+													<span class="pred-badge" id="r-pending-badge"></span>
+													<div class="pred-stat">
+														<span>Pending cases</span><span id="r-pending-count">—</span>
+													</div>
+													<div class="pred-stat">
+														<span>Backlog ratio</span><span id="r-backlog-ratio">—</span>
+													</div>
+													</div>
+
+												</div>
+												</div>
+
+											</section>
+										</div>
+										<div class="col-4 col-12-medium">
+											<section>
+												<a href="#" class="image section-img"><img src="stop.webp" alt="" /></a>
+												<header>
+													<h3>Know your rights</h3>
+													<p>What can I do in the meanwhile?</p>
+													<br>
+													<div id="ai-rights">
+														<p style="color:#aaa; font-style:italic;">Select a form above...</p>
+													</div>
+												</header>
+											</section>
+										</div>
+									</div>
+								</section>
+
+						</div>
+					</div>
+					<div class="wrapper style2">
+						<div class="inner">
+
+							<!-- Feature 2 -->
+								<section class="container box feature2">
+									<div class="row">
+										<div class="col-6 col-12-medium">
+										<section>
+											<header class="major">
+											<h2>Any more questions?</h2>
+											<p>Ask anything about your form or Paste for a breakdown</p>
+											</header>
+											<textarea id="followup-input" placeholder="e.g. How long does it take? Do I need a lawyer?" rows="4" style="width:100%; padding:0.8em; border:1px solid #ddd; border-radius:6px; font-family:'DM Sans', sans-serif; font-size:0.9em; resize:vertical;"></textarea>
+											<footer>
+											<button class="button medium icon solid fa-arrow-circle-right" onclick="sendFollowup()">Ask</button>
+											</footer>
+										</section>
+										</div>
+
+										<div class="col-6 col-12-medium">
+										<section>
+											<header class="major">
+											<h2>Response</h2>
+											<p>Based on your selected form</p>
+											</header>
+											<div id="followup-response" style="font-size:0.9em; line-height:1.8; white-space:pre-wrap; min-height:80px; color:#555;">
+											<p style="color:#aaa; font-style:italic;">Response will appear here...</p>
+											</div>
+										</section>
+										</div>
+									</div>
+								</section>
+
+							</div> 
+					</div>
+
+					<div class="wrapper style3">
+						<div class="inner">
+							<section class="container">
+							<header class="major">
+								<h2>Find an Immigration Lawyer</h2>
+								<p>Enter your zip code to find the top 3 local immigration attorneys</p>
+							</header>
+							<div style="display:flex; gap:1em; align-items:center; flex-wrap:wrap;">
+								<input type="text" id="zipcode-input" placeholder="e.g. 90210" maxlength="5" style="width:180px; padding:0.7em 1em; border:1px solid #ddd; border-radius:6px; font-size:0.9em;"/>
+								<button class="button icon solid fa-search" onclick="findLawyers()">Search</button>
+							</div>
+							<div id="lawyer-response" style="margin-top:1.5em; font-size:0.9em; line-height:1.8; white-space:pre-wrap; color:#555;"></div>
+							</section>
+						</div>
+					</div>
+				   
+					
+				
+				
+				</div>
+
+			<!-- Footer Wrapper -->
+				
+				<div id="footer-wrapper">
+					<footer id="footer" class="container">
+						<div class="row">
+							<div class="col-12">
+								<section style="text-align:center;">
+									<h2>Get in touch</h2>
+									<dl class="contact" style="display:inline-block; text-align:left;">
+										<dt>Email</dt>
+										<dd><a href="mailto:user@untitled.tld">ez@ezpath.com</a></dd>
+										<dt>Phone</dt>
+										<dd>(123) 456-7890</dd>
+									</dl>
+								</section>
+							</div>
+						</div>
+					</footer>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			
+
+	</body>
+</html>

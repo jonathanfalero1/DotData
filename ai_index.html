@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local AI · HuggingFace</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Fraunces:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #c8f55a;
+      --accent-dim: #8aab2a;
+      --text: #e8e8e0;
+      --text-muted: #666;
+      --radius: 4px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      line-height: 1;
+    }
+    header p {
+      margin-top: 0.6rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .model-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: var(--radius);
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    select:focus { border-color: var(--accent); }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      padding: 1.1rem 1.2rem;
+      padding-bottom: 3.5rem;
+      resize: vertical;
+      min-height: 140px;
+      outline: none;
+      transition: border-color 0.2s;
+      caret-color: var(--accent);
+    }
+    textarea::placeholder { color: var(--text-muted); }
+    textarea:focus { border-color: var(--accent); }
+
+    .send-btn {
+      position: absolute;
+      bottom: 0.8rem;
+      right: 0.8rem;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 1.1rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .send-btn:hover:not(:disabled) { background: #d9ff6a; }
+    .send-btn:active:not(:disabled) { transform: scale(0.97); }
+    .send-btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+
+    .hint {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .error-msg {
+      font-size: 0.78rem;
+      color: #ff6b6b;
+      background: #1a0a0a;
+      border: 1px solid #3a1515;
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+    }
+
+    .response-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      min-height: 140px;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .response-box.active { border-color: var(--accent-dim); }
+
+    .response-placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      margin-left: 1px;
+      animation: blink 0.9s step-start infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .status { font-size: 0.68rem; color: var(--text-muted); }
+    .status .ok  { color: var(--accent); }
+    .status .warn { color: #f5c842; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Local AI</h1>
+  <p>Hugging Face Inference API &nbsp;·&nbsp; No downloads required</p>
+</header>
+
+<main class="container">
+
+  <div class="model-row">
+    <span>Model:</span>
+    <select id="modelSelect"></select>
+    <span id="statusBar" class="status"></span>
+  </div>
+
+  <div class="input-wrapper">
+    <textarea id="promptInput" placeholder="Enter a USCIS form number, e.g. I-485, N-400, I-130…" rows="4"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="sendPrompt()">Send ↑</button>
+  </div>
+  <div class="hint">Ctrl + Enter to send</div>
+
+  <div class="error-msg" id="errorMsg" style="display:none;"></div>
+
+  <div class="response-box" id="responseBox">
+    <span class="response-placeholder">Response will appear here…</span>
+  </div>
+
+</main>
+
+<script>
+  const SERVER = "http://localhost:8000";
+  let modelMap = {}; // display name → model id
+
+  async function loadModels() {
+    setStatus("Connecting to server…");
+    try {
+      const res = await fetch(`${SERVER}/api/models`);
+      const data = await res.json();
+      modelMap = data.models;
+      const select = document.getElementById("modelSelect");
+      select.innerHTML = Object.entries(modelMap)
+        .map(([name, id]) => `<option value="${id}">${name}</option>`)
+        .join("");
+      setStatus("Ready", "ok");
+    } catch {
+      setStatus("⚠ Cannot reach server.py — is it running?", "warn");
+    }
+  }
+
+  function setStatus(msg, cls = "") {
+    const el = document.getElementById("statusBar");
+    el.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : msg;
+  }
+
+  function showError(msg) {
+    const el = document.getElementById("errorMsg");
+    el.textContent = msg;
+    el.style.display = "block";
+  }
+  function clearError() {
+    document.getElementById("errorMsg").style.display = "none";
+  }
+
+  async function sendPrompt() {
+    const promptEl    = document.getElementById("promptInput");
+    const responseBox = document.getElementById("responseBox");
+    const sendBtn     = document.getElementById("sendBtn");
+    const model       = document.getElementById("modelSelect").value;
+    const prompt      = promptEl.value.trim();
+
+    if (!prompt) return;
+
+    clearError();
+    sendBtn.disabled = true;
+    sendBtn.textContent = "…";
+    responseBox.className = "response-box active";
+    responseBox.innerHTML = '<span class="cursor"></span>';
+    setStatus("Generating…");
+
+    let fullText = "";
+
+    try {
+      const res = await fetch(`${SERVER}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, model }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || `Server error ${res.status}`);
+      }
+
+      const reader  = res.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const lines = decoder.decode(value).split("\n").filter(l => l.startsWith("data: "));
+        for (const line of lines) {
+          const payload = JSON.parse(line.slice(6));
+          if (payload.error) throw new Error(payload.error);
+          fullText += payload.token;
+          responseBox.innerHTML =
+            escapeHtml(fullText) + (payload.done ? "" : '<span class="cursor"></span>');
+        }
+      }
+
+      setStatus("Done", "ok");
+    } catch (err) {
+      const msg = err.message.includes("Failed to fetch")
+        ? "Cannot connect — make sure server.py is running (python server.py)"
+        : err.message;
+      showError(msg);
+      if (!fullText) responseBox.innerHTML = '<span class="response-placeholder">No response.</span>';
+      setStatus("Error", "warn");
+    } finally {
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send ↑";
+      responseBox.className = "response-box";
+    }
+  }
+
+  function escapeHtml(t) {
+    return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  document.getElementById("promptInput").addEventListener("keydown", e => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) sendPrompt();
+  });
+
+  loadModels();
+</script>
+</body>
+</html>
